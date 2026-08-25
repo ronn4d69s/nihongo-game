@@ -8,18 +8,47 @@
 </head>
 <body>
   <main class="container">
-    <h1>ひらがな れんしゅう</h1>
-    <p>もじを おしてね！</p>
+    <header>
+      <h1>ひらがな れんしゅう</h1>
+      <p>もじを おしてね！</p>
+    </header>
 
-    <div class="buttons" aria-label="ひらがなのボタン">
-      <button type="button" data-romaji="A">あ</button>
-      <button type="button" data-romaji="KA">か</button>
-      <button type="button" data-romaji="SA">さ</button>
-      <button type="button" data-romaji="TA">た</button>
-      <button type="button" data-romaji="NA">な</button>
-    </div>
+    <section class="practice" aria-label="ひらがな五十音表">
+      <div class="kana-chart">
+        <div class="kana-column">
+          <button data-romaji="A">あ</button><button data-romaji="I">い</button><button data-romaji="U">う</button><button data-romaji="E">え</button><button data-romaji="O">お</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="KA">か</button><button data-romaji="KI">き</button><button data-romaji="KU">く</button><button data-romaji="KE">け</button><button data-romaji="KO">こ</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="SA">さ</button><button data-romaji="SHI">し</button><button data-romaji="SU">す</button><button data-romaji="SE">せ</button><button data-romaji="SO">そ</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="TA">た</button><button data-romaji="CHI">ち</button><button data-romaji="TSU">つ</button><button data-romaji="TE">て</button><button data-romaji="TO">と</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="NA">な</button><button data-romaji="NI">に</button><button data-romaji="NU">ぬ</button><button data-romaji="NE">ね</button><button data-romaji="NO">の</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="HA">は</button><button data-romaji="HI">ひ</button><button data-romaji="FU">ふ</button><button data-romaji="HE">へ</button><button data-romaji="HO">ほ</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="MA">ま</button><button data-romaji="MI">み</button><button data-romaji="MU">む</button><button data-romaji="ME">め</button><button data-romaji="MO">も</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="YA">や</button><span class="blank"></span><button data-romaji="YU">ゆ</button><span class="blank"></span><button data-romaji="YO">よ</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="RA">ら</button><button data-romaji="RI">り</button><button data-romaji="RU">る</button><button data-romaji="RE">れ</button><button data-romaji="RO">ろ</button>
+        </div>
+        <div class="kana-column">
+          <button data-romaji="WA">わ</button><span class="blank"></span><span class="blank"></span><span class="blank"></span><button data-romaji="WO">を</button><button class="n-button" data-romaji="N">ん</button>
+        </div>
+      </div>
 
-    <div id="result" aria-live="polite">?</div>
+      <div id="result" aria-live="polite">?</div>
+    </section>
   </main>
 
   <script src="script.js"></script>
