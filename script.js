@@ -1,19 +1,25 @@
-// すべてのひらがなボタンを取得します。
-const buttons = document.querySelectorAll("button");
 const result = document.querySelector("#result");
+const kanaButtons = document.querySelectorAll(".panel button");
+const tabs = document.querySelectorAll(".tab");
+const panels = document.querySelectorAll(".panel");
 
-buttons.forEach((button) => {
+kanaButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const hiragana = button.textContent;
-    const romaji = button.dataset.romaji;
-
-    // ローマ字を画面に表示します。
-    result.textContent = romaji;
-
-    // 前の読み上げを止めてから、ひらがなを日本語で読み上げます。
+    result.textContent = button.dataset.romaji;
     speechSynthesis.cancel();
     const speech = new SpeechSynthesisUtterance(hiragana);
     speech.lang = "ja-JP";
     speechSynthesis.speak(speech);
+  });
+});
+
+tabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    tabs.forEach((item) => item.classList.remove("active"));
+    panels.forEach((panel) => panel.classList.remove("active"));
+    tab.classList.add("active");
+    document.getElementById(tab.dataset.target).classList.add("active");
+    result.textContent = "?";
   });
 });
