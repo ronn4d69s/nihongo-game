@@ -5,8 +5,6 @@
 body {
   margin: 0;
   min-height: 100vh;
-  display: grid;
-  place-items: center;
   font-family: sans-serif;
   text-align: center;
   background-color: #fff8e7;
@@ -14,31 +12,63 @@ body {
 }
 
 .container {
-  width: min(90%, 800px);
-}
-
-h1 {
-  margin-bottom: 8px;
-}
-
-.buttons {
+  width: min(98vw, 1100px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 10px 8px;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
-  gap: 16px;
-  margin: 32px 0;
+}
+
+header h1 {
+  margin: 0 0 2px;
+  font-size: clamp(22px, 3vw, 34px);
+}
+
+header p {
+  margin: 0 0 10px;
+  font-size: clamp(13px, 2vw, 18px);
+}
+
+.practice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.kana-chart {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: clamp(3px, 0.7vw, 9px);
+  width: 100%;
+}
+
+.kana-column {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr) auto;
+  gap: clamp(3px, 0.7vh, 7px);
+}
+
+button,
+.blank {
+  width: clamp(30px, 7.8vw, 78px);
+  height: clamp(44px, 8.5vh, 76px);
 }
 
 button {
-  width: 110px;
-  height: 110px;
-  border: 3px solid #ff8a65;
-  border-radius: 18px;
+  padding: 0;
+  border: clamp(1px, 0.35vw, 3px) solid #ff8a65;
+  border-radius: clamp(7px, 1.5vw, 14px);
   background-color: white;
   color: #333;
-  font-size: 52px;
+  font-size: clamp(24px, 5vw, 46px);
+  line-height: 1;
   cursor: pointer;
-  box-shadow: 0 5px 0 #ff8a65;
+  box-shadow: 0 3px 0 #ff8a65;
+  touch-action: manipulation;
 }
 
 button:hover {
@@ -46,18 +76,48 @@ button:hover {
 }
 
 button:active {
-  transform: translateY(5px);
+  transform: translateY(3px);
   box-shadow: none;
 }
 
 button:focus-visible {
-  outline: 4px solid #4aa3df;
-  outline-offset: 4px;
+  outline: 3px solid #4aa3df;
+  outline-offset: 2px;
+}
+
+.blank {
+  visibility: hidden;
+}
+
+.n-button {
+  grid-row: 6;
 }
 
 #result {
-  min-height: 120px;
-  font-size: 88px;
+  min-height: 54px;
+  font-size: clamp(42px, 7vw, 70px);
+  line-height: 1;
   font-weight: bold;
   color: #e64a19;
+}
+
+@media (max-height: 650px) {
+  .container {
+    justify-content: flex-start;
+    padding-top: 4px;
+  }
+
+  header p {
+    margin-bottom: 5px;
+  }
+
+  button,
+  .blank {
+    height: clamp(36px, 7.5vh, 52px);
+  }
+
+  #result {
+    min-height: 42px;
+    font-size: 38px;
+  }
 }
