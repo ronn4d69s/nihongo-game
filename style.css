@@ -1,55 +1,276 @@
-@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yuji+Syuku&display=swap');
 
-* { box-sizing: border-box; }
-body { margin:0; min-height:100vh; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho","BIZ UDPGothic",sans-serif; text-align:center; background-color:#fff8e7; color:#333; overflow-x:hidden; }
-.container { width:min(98vw,1100px); min-height:100vh; margin:0 auto; padding:8px; display:flex; flex-direction:column; justify-content:center; }
-header h1 { margin:0 0 2px; font-size:clamp(22px,3vw,34px); font-weight:600; }
-header p { margin:0 0 7px; font-size:clamp(13px,2vw,18px); }
-.tabs { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); align-items:stretch; gap:0; width:min(100%,560px); margin:0 auto 8px; }
-.tab { width:100%; min-width:0; height:auto; min-height:46px; padding:7px 8px; font-size:clamp(15px,2vw,20px); line-height:1.15; white-space:nowrap; overflow:visible; border:2px solid #ff8a65; border-radius:0; box-shadow:none; display:flex; align-items:center; justify-content:center; }
-.tab:first-child { border-radius:12px 0 0 12px; }
-.tab:last-child { border-radius:0 12px 12px 0; }
-.tab + .tab { border-left-width:0; }
-.tab.active { background:#ff8a65; color:white; }
-.practice { display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
-.panel { display:none !important; }
-.panel.active { display:flex !important; }
-.kana-chart { flex-direction:row-reverse; justify-content:center; gap:0; width:100%; }
-.kana-column { display:grid; grid-template-rows:repeat(5,1fr); gap:0; }
-button,.blank { width:clamp(32px,8vw,80px); height:clamp(46px,8.7vh,78px); }
-button { padding:0; border:clamp(1px,.35vw,3px) solid #ff8a65; border-radius:clamp(7px,1.5vw,14px); background:white; color:#333; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho",sans-serif; font-weight:600; font-size:clamp(24px,5vw,46px); line-height:1.05; cursor:pointer; box-shadow:0 3px 0 #ff8a65; touch-action:manipulation; display:flex; align-items:center; justify-content:center; overflow:visible; }
-button:hover { background:#fff0eb; }
-button:active { transform:translateY(3px); box-shadow:none; }
-button:focus-visible { outline:3px solid #4aa3df; outline-offset:2px; }
-.blank { visibility:hidden; }
-.youon-chart { flex-wrap:wrap; justify-content:center; align-content:center; gap:0; width:min(100%,760px); }
-.youon-row { display:flex; gap:0; }
-.youon-row button { width:clamp(70px,9.3vw,94px); font-size:clamp(22px,4vw,38px); }
-#result { min-height:54px; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho",sans-serif; font-size:clamp(42px,7vw,70px); line-height:1; font-weight:600; color:#e64a19; }
-
-@media (max-width:600px) {
-.container { width:100%; padding:10px 6px; justify-content:flex-start; }
-header h1 { font-size:30px; }
-header p { font-size:18px; margin-bottom:10px; }
-.tabs { width:min(100%,455px); margin-bottom:10px; }
-.tab { min-width:0; min-height:44px; padding:5px 4px; font-size:16px; border-width:2px; }
-.tab:first-child { border-radius:10px 0 0 10px; }
-.tab:last-child { border-radius:0 10px 10px 0; }
-.kana-chart { gap:0; }
-.kana-column { gap:0; }
-button,.blank { width:calc((100vw - 12px) / 10); height:64px; }
-button { font-size:34px; line-height:1.05; border-width:2px; border-radius:7px; }
-.youon-chart { width:100%; gap:0; }
-.youon-row { gap:0; }
-.youon-row button { width:clamp(64px,29vw,104px); height:62px; font-size:30px; }
-#result { min-height:48px; font-size:44px; }
+:root {
+  --washi: #f2ead9;
+  --washi-light: #faf5e8;
+  --sumi: #3e3a34;
+  --sumi-soft: #514b43;
+  --shu: #b85c45;
+  --shu-dark: #994936;
+  --yamabuki: #d8a84e;
+  --wood: #f6e9cd;
+  --wood-light: #fff7e5;
+  --aomi: #4f8f8b;
 }
 
-@media (max-height:650px) and (min-width:601px) {
-.container { justify-content:flex-start; padding-top:4px; }
-header p { margin-bottom:4px; }
-.tabs { margin-bottom:5px; }
-.tab { padding:4px 8px; }
-button,.blank { height:clamp(38px,7.4vh,54px); }
-#result { min-height:38px; font-size:36px; }
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", "BIZ UDPGothic", sans-serif;
+  text-align: center;
+  color: var(--sumi);
+  overflow-x: hidden;
+  background-color: var(--washi);
+  background-image:
+    radial-gradient(circle at 18% 14%, rgba(255,255,255,.42) 0 1px, transparent 1.5px),
+    radial-gradient(circle at 73% 66%, rgba(127,103,64,.06) 0 1px, transparent 1.7px),
+    repeating-linear-gradient(7deg, rgba(104,87,55,.025) 0 1px, transparent 1px 9px),
+    linear-gradient(115deg, rgba(255,255,255,.28), rgba(222,205,168,.10));
+  background-size: 31px 31px, 43px 43px, 100% 100%, 100% 100%;
+}
+
+.container {
+  width: min(98vw, 1100px);
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 12px 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+header h1 {
+  margin: 0 0 1px;
+  font-family: "Yuji Syuku", "Klee One", serif;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: .04em;
+  color: #332f2a;
+  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+}
+
+header h1::after {
+  content: "";
+  display: inline-block;
+  width: .32em;
+  height: .32em;
+  margin-left: .2em;
+  border-radius: 2px;
+  background: var(--shu);
+  opacity: .85;
+  transform: rotate(-4deg);
+}
+
+header p {
+  margin: 0 0 9px;
+  font-size: clamp(13px, 2vw, 18px);
+  color: #655e54;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0;
+  width: min(100%, 560px);
+  margin: 0 auto 10px;
+  border: 1px solid rgba(114,86,53,.16);
+  border-radius: 13px;
+  background: rgba(255,250,237,.58);
+  box-shadow: 0 2px 8px rgba(80,57,28,.08);
+  overflow: hidden;
+}
+
+.tab {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 7px 8px;
+  border: 0;
+  border-right: 1px solid rgba(114,86,53,.16);
+  border-radius: 0;
+  background: transparent;
+  color: #685f54;
+  box-shadow: none;
+  font-family: "Klee One", sans-serif;
+  font-size: clamp(15px, 2vw, 20px);
+  font-weight: 600;
+  line-height: 1.15;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tab:last-child { border-right: 0; }
+.tab.active { background: var(--shu); color: #fffaf0; }
+.tab:hover { background: rgba(184,92,69,.10); }
+.tab.active:hover { background: var(--shu); }
+
+.practice {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+}
+
+.panel { display: none !important; }
+.panel.active { display: flex !important; }
+
+.kana-chart {
+  flex-direction: row-reverse;
+  justify-content: center;
+  gap: 0;
+  width: 100%;
+  filter: drop-shadow(0 5px 8px rgba(72,52,28,.08));
+}
+
+.kana-column {
+  display: grid;
+  grid-template-rows: repeat(5, 1fr);
+  gap: 0;
+}
+
+button,
+.blank {
+  width: clamp(32px, 8vw, 80px);
+  height: clamp(46px, 8.7vh, 78px);
+}
+
+.kana-column button,
+.youon-row button {
+  padding: 0;
+  border: 2px solid var(--shu);
+  border-radius: clamp(9px, 1.4vw, 15px);
+  background-color: var(--wood);
+  background-image:
+    linear-gradient(100deg, rgba(255,255,255,.28), transparent 42%, rgba(156,111,54,.035)),
+    repeating-linear-gradient(4deg, rgba(116,84,45,.025) 0 1px, transparent 1px 11px);
+  color: var(--sumi-soft);
+  font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", sans-serif;
+  font-weight: 600;
+  font-size: clamp(24px, 5vw, 46px);
+  line-height: 1.05;
+  cursor: pointer;
+  box-shadow:
+    0 3px 0 var(--shu-dark),
+    0 6px 10px rgba(79,54,25,.10),
+    inset 0 1px 0 rgba(255,255,255,.55);
+  touch-action: manipulation;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: visible;
+  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.kana-column button:hover,
+.youon-row button:hover {
+  background-color: var(--wood-light);
+}
+
+.kana-column button:active,
+.youon-row button:active {
+  transform: translateY(2px) scale(.975);
+  box-shadow:
+    0 1px 0 var(--shu-dark),
+    0 2px 4px rgba(79,54,25,.10),
+    inset 0 1px 2px rgba(93,63,28,.06);
+}
+
+button:focus-visible {
+  outline: 3px solid var(--aomi);
+  outline-offset: 2px;
+}
+
+.blank { visibility: hidden; }
+
+.youon-chart {
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  gap: 0;
+  width: min(100%, 760px);
+}
+
+.youon-row { display: flex; gap: 0; }
+.youon-row button { width: clamp(70px, 9.3vw, 94px); font-size: clamp(22px, 4vw, 38px); }
+
+#result {
+  min-height: 58px;
+  padding: 4px 18px 6px;
+  border-radius: 14px;
+  font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", sans-serif;
+  font-size: clamp(42px, 7vw, 70px);
+  line-height: 1;
+  font-weight: 600;
+  color: var(--shu-dark);
+  background: rgba(255,250,237,.38);
+  box-shadow: inset 0 0 0 1px rgba(155,115,65,.08);
+}
+
+@media (max-width: 600px) {
+  .container {
+    width: 100%;
+    padding: 10px 6px;
+    justify-content: flex-start;
+  }
+
+  header h1 { font-size: 36px; }
+  header p { font-size: 17px; margin-bottom: 9px; }
+
+  .tabs { width: min(100%, 455px); margin-bottom: 10px; }
+  .tab { min-height: 43px; padding: 5px 4px; font-size: 16px; }
+
+  .kana-chart { gap: 0; }
+  .kana-column { gap: 0; }
+
+  button,
+  .blank {
+    width: calc((100vw - 12px) / 10);
+    height: 64px;
+  }
+
+  .kana-column button {
+    font-size: 34px;
+    line-height: 1.05;
+    border-width: 1.5px;
+    border-radius: 8px;
+    box-shadow:
+      0 2px 0 var(--shu-dark),
+      0 4px 7px rgba(79,54,25,.08),
+      inset 0 1px 0 rgba(255,255,255,.5);
+  }
+
+  .kana-column button:active {
+    transform: translateY(1.5px) scale(.975);
+    box-shadow: 0 .5px 0 var(--shu-dark), 0 1px 3px rgba(79,54,25,.08);
+  }
+
+  .youon-chart { width: 100%; gap: 0; }
+  .youon-row { gap: 0; }
+  .youon-row button { width: clamp(64px, 29vw, 104px); height: 62px; font-size: 30px; }
+
+  #result { min-height: 50px; font-size: 44px; }
+}
+
+@media (max-height: 650px) and (min-width: 601px) {
+  .container { justify-content: flex-start; padding-top: 4px; }
+  header h1 { font-size: 32px; }
+  header p { margin-bottom: 4px; }
+  .tabs { margin-bottom: 5px; }
+  .tab { padding: 4px 8px; min-height: 40px; }
+  button,
+  .blank { height: clamp(38px, 7.4vh, 54px); }
+  #result { min-height: 38px; font-size: 36px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kana-column button,
+  .youon-row button { transition: none; }
 }
