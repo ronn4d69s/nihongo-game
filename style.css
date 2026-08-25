@@ -1,7 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&display=swap');
+
 * { box-sizing: border-box; }
-body { margin:0; min-height:100vh; font-family:sans-serif; text-align:center; background-color:#fff8e7; color:#333; overflow-x:hidden; }
+body { margin:0; min-height:100vh; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho","BIZ UDPGothic",sans-serif; text-align:center; background-color:#fff8e7; color:#333; overflow-x:hidden; }
 .container { width:min(98vw,1100px); min-height:100vh; margin:0 auto; padding:8px; display:flex; flex-direction:column; justify-content:center; }
-header h1 { margin:0 0 2px; font-size:clamp(22px,3vw,34px); }
+header h1 { margin:0 0 2px; font-size:clamp(22px,3vw,34px); font-weight:600; }
 header p { margin:0 0 7px; font-size:clamp(13px,2vw,18px); }
 .tabs { display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); align-items:stretch; gap:0; width:min(100%,560px); margin:0 auto 8px; }
 .tab { width:100%; min-width:0; height:auto; min-height:46px; padding:7px 8px; font-size:clamp(15px,2vw,20px); line-height:1.15; white-space:nowrap; overflow:visible; border:2px solid #ff8a65; border-radius:0; box-shadow:none; display:flex; align-items:center; justify-content:center; }
@@ -15,7 +17,7 @@ header p { margin:0 0 7px; font-size:clamp(13px,2vw,18px); }
 .kana-chart { flex-direction:row-reverse; justify-content:center; gap:0; width:100%; }
 .kana-column { display:grid; grid-template-rows:repeat(5,1fr); gap:0; }
 button,.blank { width:clamp(32px,8vw,80px); height:clamp(46px,8.7vh,78px); }
-button { padding:0; border:clamp(1px,.35vw,3px) solid #ff8a65; border-radius:clamp(7px,1.5vw,14px); background:white; color:#333; font-size:clamp(24px,5vw,46px); line-height:1.05; cursor:pointer; box-shadow:0 3px 0 #ff8a65; touch-action:manipulation; display:flex; align-items:center; justify-content:center; overflow:visible; }
+button { padding:0; border:clamp(1px,.35vw,3px) solid #ff8a65; border-radius:clamp(7px,1.5vw,14px); background:white; color:#333; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho",sans-serif; font-weight:400; font-size:clamp(24px,5vw,46px); line-height:1.05; cursor:pointer; box-shadow:0 3px 0 #ff8a65; touch-action:manipulation; display:flex; align-items:center; justify-content:center; overflow:visible; }
 button:hover { background:#fff0eb; }
 button:active { transform:translateY(3px); box-shadow:none; }
 button:focus-visible { outline:3px solid #4aa3df; outline-offset:2px; }
@@ -23,7 +25,7 @@ button:focus-visible { outline:3px solid #4aa3df; outline-offset:2px; }
 .youon-chart { flex-wrap:wrap; justify-content:center; align-content:center; gap:0; width:min(100%,760px); }
 .youon-row { display:flex; gap:0; }
 .youon-row button { width:clamp(70px,9.3vw,94px); font-size:clamp(22px,4vw,38px); }
-#result { min-height:54px; font-size:clamp(42px,7vw,70px); line-height:1; font-weight:bold; color:#e64a19; }
+#result { min-height:54px; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho",sans-serif; font-size:clamp(42px,7vw,70px); line-height:1; font-weight:600; color:#e64a19; }
 
 @media (max-width:600px) {
 .container { width:100%; padding:10px 6px; justify-content:flex-start; }
