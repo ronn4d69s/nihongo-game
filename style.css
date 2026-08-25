@@ -1,123 +1,31 @@
-* {
-  box-sizing: border-box;
-}
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: sans-serif;
-  text-align: center;
-  background-color: #fff8e7;
-  color: #333;
-}
-
-.container {
-  width: min(98vw, 1100px);
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: 10px 8px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-header h1 {
-  margin: 0 0 2px;
-  font-size: clamp(22px, 3vw, 34px);
-}
-
-header p {
-  margin: 0 0 10px;
-  font-size: clamp(13px, 2vw, 18px);
-}
-
-.practice {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.kana-chart {
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  gap: clamp(3px, 0.7vw, 9px);
-  width: 100%;
-}
-
-.kana-column {
-  display: grid;
-  grid-template-rows: repeat(5, 1fr) auto;
-  gap: clamp(3px, 0.7vh, 7px);
-}
-
-button,
-.blank {
-  width: clamp(30px, 7.8vw, 78px);
-  height: clamp(44px, 8.5vh, 76px);
-}
-
-button {
-  padding: 0;
-  border: clamp(1px, 0.35vw, 3px) solid #ff8a65;
-  border-radius: clamp(7px, 1.5vw, 14px);
-  background-color: white;
-  color: #333;
-  font-size: clamp(24px, 5vw, 46px);
-  line-height: 1;
-  cursor: pointer;
-  box-shadow: 0 3px 0 #ff8a65;
-  touch-action: manipulation;
-}
-
-button:hover {
-  background-color: #fff0eb;
-}
-
-button:active {
-  transform: translateY(3px);
-  box-shadow: none;
-}
-
-button:focus-visible {
-  outline: 3px solid #4aa3df;
-  outline-offset: 2px;
-}
-
-.blank {
-  visibility: hidden;
-}
-
-.n-button {
-  grid-row: 6;
-}
-
-#result {
-  min-height: 54px;
-  font-size: clamp(42px, 7vw, 70px);
-  line-height: 1;
-  font-weight: bold;
-  color: #e64a19;
-}
-
-@media (max-height: 650px) {
-  .container {
-    justify-content: flex-start;
-    padding-top: 4px;
-  }
-
-  header p {
-    margin-bottom: 5px;
-  }
-
-  button,
-  .blank {
-    height: clamp(36px, 7.5vh, 52px);
-  }
-
-  #result {
-    min-height: 42px;
-    font-size: 38px;
-  }
+* { box-sizing: border-box; }
+body { margin:0; min-height:100vh; font-family:sans-serif; text-align:center; background-color:#fff8e7; color:#333; }
+.container { width:min(98vw,1100px); min-height:100vh; margin:0 auto; padding:8px; display:flex; flex-direction:column; justify-content:center; }
+header h1 { margin:0 0 2px; font-size:clamp(22px,3vw,34px); }
+header p { margin:0 0 7px; font-size:clamp(13px,2vw,18px); }
+.tabs { display:flex; justify-content:center; gap:8px; margin-bottom:8px; }
+.tab { width:auto; height:auto; min-width:92px; padding:7px 15px; font-size:clamp(15px,2vw,20px); border:2px solid #ff8a65; border-radius:12px; box-shadow:none; }
+.tab.active { background:#ff8a65; color:white; }
+.practice { display:flex; flex-direction:column; align-items:center; gap:8px; }
+.panel { display:none !important; }
+.panel.active { display:flex !important; }
+.kana-chart { flex-direction:row-reverse; justify-content:center; gap:clamp(3px,.7vw,9px); width:100%; }
+.kana-column { display:grid; grid-template-rows:repeat(5,1fr); gap:clamp(3px,.7vh,7px); }
+button,.blank { width:clamp(30px,7.8vw,78px); height:clamp(44px,8.5vh,76px); }
+button { padding:0; border:clamp(1px,.35vw,3px) solid #ff8a65; border-radius:clamp(7px,1.5vw,14px); background:white; color:#333; font-size:clamp(24px,5vw,46px); line-height:1; cursor:pointer; box-shadow:0 3px 0 #ff8a65; touch-action:manipulation; }
+button:hover { background:#fff0eb; }
+button:active { transform:translateY(3px); box-shadow:none; }
+button:focus-visible { outline:3px solid #4aa3df; outline-offset:2px; }
+.blank { visibility:hidden; }
+.youon-chart { flex-wrap:wrap; justify-content:center; align-content:center; gap:7px; width:min(100%,760px); }
+.youon-row { display:flex; gap:5px; }
+.youon-row button { width:clamp(68px,9vw,90px); font-size:clamp(22px,4vw,38px); }
+#result { min-height:54px; font-size:clamp(42px,7vw,70px); line-height:1; font-weight:bold; color:#e64a19; }
+@media (max-height:650px) {
+.container { justify-content:flex-start; padding-top:4px; }
+header p { margin-bottom:4px; }
+.tabs { margin-bottom:5px; }
+.tab { padding:4px 12px; }
+button,.blank { height:clamp(36px,7.2vh,52px); }
+#result { min-height:38px; font-size:36px; }
 }
