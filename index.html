@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ひらがな れんしゅう</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="container">
+    <h1>ひらがな れんしゅう</h1>
+    <p>もじを おしてね！</p>
+
+    <div class="buttons" aria-label="ひらがなのボタン">
+      <button type="button" data-romaji="A">あ</button>
+      <button type="button" data-romaji="KA">か</button>
+      <button type="button" data-romaji="SA">さ</button>
+      <button type="button" data-romaji="TA">た</button>
+      <button type="button" data-romaji="NA">な</button>
+    </div>
+
+    <div id="result" aria-live="polite">?</div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
