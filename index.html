@@ -8,12 +8,26 @@
 </head>
 <body>
 <main class="container">
-<header><h1>ひらがな れんしゅう</h1><p>もじを おしてね！</p></header>
+<section class="controls">
+<header class="script-selector" aria-label="もじをえらぶ">
+<button class="script-option active" data-script="hiragana" aria-pressed="true">ひらがな</button>
+<button class="script-option" data-script="katakana" aria-pressed="false">カタカナ</button>
+</header>
+<p class="instruction">もじを おしてね！</p>
 <nav class="tabs" aria-label="もじのしゅるい">
-<button class="tab active" data-target="basic">ひらがな</button>
-<button class="tab" data-target="dakuten">゛゜</button>
-<button class="tab" data-target="youon">ゃゅょ</button>
+<button class="tab active" data-target="basic" data-hiragana-label="あいう" data-katakana-label="アイウ">あいう</button>
+<button class="tab" data-target="dakuten" data-hiragana-label="゛゜" data-katakana-label="゛゜">゛゜</button>
+<button class="tab" data-target="youon" data-hiragana-label="ゃゅょ" data-katakana-label="ャュョ">ゃゅょ</button>
 </nav>
+<div class="handedness" aria-label="ききて">
+<span>ききて</span>
+<div class="hand-options">
+<button class="hand-option active" data-hand="right" aria-pressed="true">右</button>
+<button class="hand-option" data-hand="left" aria-pressed="false">左</button>
+</div>
+</div>
+<div id="result-mobile" class="result-mirror" aria-hidden="true">?</div>
+</section>
 <section class="practice">
 <div id="basic" class="kana-chart panel active" aria-label="ひらがな五十音表">
 <div class="kana-column"><button data-romaji="A">あ</button><button data-romaji="I">い</button><button data-romaji="U">う</button><button data-romaji="E">え</button><button data-romaji="O">お</button></div>
@@ -47,6 +61,7 @@
 <div class="youon-row"><button data-romaji="BYA">びゃ</button><button data-romaji="BYU">びゅ</button><button data-romaji="BYO">びょ</button></div>
 <div class="youon-row"><button data-romaji="PYA">ぴゃ</button><button data-romaji="PYU">ぴゅ</button><button data-romaji="PYO">ぴょ</button></div>
 </div>
+<div id="katakana-placeholder" class="panel placeholder" aria-live="polite"><span>カタカナは<br>つぎのおたのしみ</span></div>
 <div id="result" aria-live="polite">?</div>
 </section>
 </main>
