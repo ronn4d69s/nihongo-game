@@ -164,7 +164,7 @@ button,
   color: var(--sumi-soft);
   font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", sans-serif;
   font-weight: 600;
-  font-size: clamp(24px, calc(var(--tile-size) * .58), 44px);
+  font-size: clamp(26px, calc(var(--tile-size) * .62), 44px);
   line-height: 1;
   cursor: pointer;
   box-shadow:
@@ -207,10 +207,10 @@ button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
 }
 
 .youon-row button {
-  width: clamp(62px, 10vw, 86px);
-  height: clamp(54px, 8.5vw, 72px);
+  width: clamp(66px, 10vw, 86px);
+  height: clamp(58px, 8.5vw, 72px);
   aspect-ratio: auto;
-  font-size: clamp(22px, 4vw, 34px);
+  font-size: clamp(24px, 4vw, 34px);
 }
 
 #result {
@@ -226,24 +226,25 @@ button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
   box-shadow: inset 0 0 0 1px rgba(155,115,65,.08);
 }
 
-@media (max-width: 600px) {
+/* Narrow portrait screens: use nearly all available width while preserving square tiles. */
+@media (max-width: 600px) and (orientation: portrait) {
   :root {
-    --board-width: min(90vw, 430px);
+    --board-width: min(95vw, 456px);
     --tile-size: calc(var(--board-width) / 10);
   }
 
   .container {
     width: 100%;
     min-height: 100svh;
-    padding: 14px 8px 18px;
+    padding: 14px 2.5vw 18px;
     justify-content: flex-start;
   }
 
-  header h1 { font-size: clamp(31px, 9vw, 38px); }
+  header h1 { font-size: clamp(32px, 9.2vw, 39px); }
   header p { font-size: 16px; margin-bottom: 7px; }
 
   .tabs {
-    width: min(76vw, 360px);
+    width: min(80vw, 380px);
     margin-bottom: 9px;
   }
 
@@ -256,7 +257,7 @@ button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
   .kana-column button {
     border-width: 1.5px;
     border-radius: clamp(6px, 2vw, 9px);
-    font-size: clamp(22px, calc(var(--tile-size) * .72), 34px);
+    font-size: clamp(25px, calc(var(--tile-size) * .76), 36px);
     box-shadow: 0 2px 0 var(--shu-dark), 0 4px 7px rgba(79,54,25,.08), inset 0 1px 0 rgba(255,255,255,.5);
   }
 
@@ -266,70 +267,71 @@ button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
   }
 
   .youon-chart {
-    width: min(90vw, 430px);
+    width: min(95vw, 456px);
     gap: 5px;
   }
 
   .youon-row button {
-    width: clamp(62px, 20vw, 84px);
-    height: clamp(52px, 16vw, 68px);
-    font-size: clamp(22px, 7vw, 30px);
+    width: clamp(68px, 21vw, 88px);
+    height: clamp(56px, 17vw, 72px);
+    font-size: clamp(24px, 7.4vw, 32px);
   }
 
   #result {
-    min-height: 46px;
+    min-height: 48px;
     padding: 1px 14px 3px;
-    font-size: clamp(38px, 11vw, 48px);
+    font-size: clamp(40px, 11vw, 50px);
   }
 }
 
-@media (orientation: landscape) and (max-height: 600px) {
+/* Landscape screens: size from available width, not viewport height. Vertical scrolling is allowed. */
+@media (orientation: landscape) and (max-width: 999px) {
   :root {
-    --board-width: min(66vh, 680px);
+    --board-width: min(78vw, 680px);
     --tile-size: calc(var(--board-width) / 10);
   }
 
   .container {
     width: min(96vw, 860px);
     min-height: 100svh;
-    padding: 6px 10px 8px;
+    padding: 12px 10px 18px;
     justify-content: flex-start;
   }
 
-  header h1 { font-size: clamp(24px, 5vh, 32px); }
-  header p { margin-bottom: 3px; font-size: clamp(12px, 2.6vh, 15px); }
+  header h1 { font-size: clamp(28px, 4.6vw, 38px); }
+  header p { margin-bottom: 6px; font-size: clamp(14px, 2.2vw, 17px); }
 
   .tabs {
-    width: min(52vw, 420px);
-    margin-bottom: 5px;
+    width: min(58vw, 460px);
+    margin-bottom: 8px;
   }
 
   .tab {
-    min-height: 34px;
-    padding: 3px 6px;
-    font-size: clamp(12px, 2.7vh, 15px);
+    min-height: 40px;
+    padding: 5px 7px;
+    font-size: clamp(14px, 2vw, 17px);
   }
 
   .kana-column button {
-    font-size: clamp(18px, calc(var(--tile-size) * .64), 32px);
-    border-radius: clamp(5px, 1.5vh, 9px);
+    font-size: clamp(26px, calc(var(--tile-size) * .66), 40px);
+    border-radius: clamp(7px, 1.2vw, 11px);
   }
 
   .youon-chart {
-    width: min(72vw, 620px);
-    gap: 4px;
+    width: min(78vw, 650px);
+    gap: 5px;
   }
 
   .youon-row button {
-    width: clamp(56px, 9vw, 80px);
-    height: clamp(44px, 9vh, 62px);
-    font-size: clamp(18px, 5vh, 28px);
+    width: clamp(72px, 10.5vw, 90px);
+    height: clamp(58px, 8vw, 74px);
+    font-size: clamp(25px, 4vw, 34px);
   }
 
   #result {
-    min-height: 34px;
-    padding: 0 12px 2px;
-    font-size: clamp(30px, 7vh, 40px);
+    min-height: 48px;
+    padding: 1px 14px 3px;
+    font-size: clamp(40px, 5vw, 52px);
   }
 }
 
