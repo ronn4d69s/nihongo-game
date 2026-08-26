@@ -11,9 +11,14 @@
   --wood: #f6e9cd;
   --wood-light: #fff7e5;
   --aomi: #4f8f8b;
+  --game-max: 760px;
+  --board-width: min(88vw, var(--game-max));
+  --tile-size: calc(var(--board-width) / 10);
 }
 
 * { box-sizing: border-box; }
+
+html, body { min-height: 100%; }
 
 body {
   margin: 0;
@@ -30,21 +35,24 @@ body {
 }
 
 .container {
-  width: min(98vw, 1100px);
+  width: min(94vw, 860px);
   min-height: 100vh;
   margin: 0 auto;
-  padding: 12px 10px;
+  padding: clamp(12px, 2.5vh, 28px) 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
 }
 
+header { width: 100%; }
+
 header h1 {
-  margin: 0 0 1px;
+  margin: 0 0 2px;
   font-family: "Yuji Syuku", "Klee One", serif;
-  font-size: clamp(30px, 4vw, 48px);
+  font-size: clamp(30px, 4vw, 46px);
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1.16;
   letter-spacing: .04em;
   color: #332f2a;
   text-shadow: 0 1px 0 rgba(255,255,255,.5);
@@ -63,8 +71,8 @@ header h1::after {
 }
 
 header p {
-  margin: 0 0 9px;
-  font-size: clamp(13px, 2vw, 18px);
+  margin: 0 0 8px;
+  font-size: clamp(13px, 1.8vw, 18px);
   color: #655e54;
 }
 
@@ -73,7 +81,7 @@ header p {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: 0;
-  width: min(100%, 560px);
+  width: min(72vw, 520px);
   margin: 0 auto 10px;
   border: 1px solid rgba(114,86,53,.16);
   border-radius: 13px;
@@ -85,8 +93,8 @@ header p {
 .tab {
   width: 100%;
   min-width: 0;
-  min-height: 46px;
-  padding: 7px 8px;
+  min-height: 42px;
+  padding: 6px 8px;
   border: 0;
   border-right: 1px solid rgba(114,86,53,.16);
   border-radius: 0;
@@ -94,7 +102,7 @@ header p {
   color: #685f54;
   box-shadow: none;
   font-family: "Klee One", sans-serif;
-  font-size: clamp(15px, 2vw, 20px);
+  font-size: clamp(14px, 1.8vw, 19px);
   font-weight: 600;
   line-height: 1.15;
   white-space: nowrap;
@@ -112,7 +120,7 @@ header p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   width: 100%;
 }
 
@@ -123,27 +131,32 @@ header p {
   flex-direction: row-reverse;
   justify-content: center;
   gap: 0;
-  width: 100%;
+  width: fit-content;
+  max-width: 100%;
   filter: drop-shadow(0 5px 8px rgba(72,52,28,.08));
 }
 
+#basic { width: var(--board-width); }
+#dakuten { width: calc(var(--board-width) / 2); }
+
 .kana-column {
   display: grid;
-  grid-template-rows: repeat(5, 1fr);
+  grid-template-rows: repeat(5, var(--tile-size));
   gap: 0;
 }
 
 button,
 .blank {
-  width: clamp(32px, 8vw, 80px);
-  height: clamp(46px, 8.7vh, 78px);
+  width: var(--tile-size);
+  height: var(--tile-size);
+  aspect-ratio: 1 / 1;
 }
 
 .kana-column button,
 .youon-row button {
   padding: 0;
   border: 2px solid var(--shu);
-  border-radius: clamp(9px, 1.4vw, 15px);
+  border-radius: clamp(8px, 1.2vw, 14px);
   background-color: var(--wood);
   background-image:
     linear-gradient(100deg, rgba(255,255,255,.28), transparent 42%, rgba(156,111,54,.035)),
@@ -151,8 +164,8 @@ button,
   color: var(--sumi-soft);
   font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", sans-serif;
   font-weight: 600;
-  font-size: clamp(24px, 5vw, 46px);
-  line-height: 1.05;
+  font-size: clamp(24px, calc(var(--tile-size) * .58), 44px);
+  line-height: 1;
   cursor: pointer;
   box-shadow:
     0 3px 0 var(--shu-dark),
@@ -183,19 +196,29 @@ button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
   flex-wrap: wrap;
   justify-content: center;
   align-content: center;
-  gap: 0;
-  width: min(100%, 760px);
+  gap: 6px;
+  width: min(82vw, 650px);
+  max-width: 100%;
 }
 
-.youon-row { display: flex; gap: 0; }
-.youon-row button { width: clamp(70px, 9.3vw, 94px); font-size: clamp(22px, 4vw, 38px); }
+.youon-row {
+  display: flex;
+  gap: 0;
+}
+
+.youon-row button {
+  width: clamp(62px, 10vw, 86px);
+  height: clamp(54px, 8.5vw, 72px);
+  aspect-ratio: auto;
+  font-size: clamp(22px, 4vw, 34px);
+}
 
 #result {
-  min-height: 58px;
-  padding: 4px 18px 6px;
+  min-height: 54px;
+  padding: 2px 16px 4px;
   border-radius: 14px;
   font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", sans-serif;
-  font-size: clamp(42px, 7vw, 70px);
+  font-size: clamp(40px, 6vw, 62px);
   line-height: 1;
   font-weight: 600;
   color: var(--shu-dark);
@@ -204,38 +227,122 @@ button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
 }
 
 @media (max-width: 600px) {
-  .container { width: 100%; padding: 10px 6px; justify-content: flex-start; }
-  header h1 { font-size: 36px; }
-  header p { font-size: 17px; margin-bottom: 9px; }
-  .tabs { width: min(100%, 455px); margin-bottom: 10px; }
-  .tab { min-height: 43px; padding: 5px 4px; font-size: 16px; }
-  .kana-chart { gap: 0; }
-  .kana-column { gap: 0; }
-  button, .blank { width: calc((100vw - 12px) / 10); height: 64px; }
+  :root {
+    --board-width: min(90vw, 430px);
+    --tile-size: calc(var(--board-width) / 10);
+  }
+
+  .container {
+    width: 100%;
+    min-height: 100svh;
+    padding: 14px 8px 18px;
+    justify-content: flex-start;
+  }
+
+  header h1 { font-size: clamp(31px, 9vw, 38px); }
+  header p { font-size: 16px; margin-bottom: 7px; }
+
+  .tabs {
+    width: min(76vw, 360px);
+    margin-bottom: 9px;
+  }
+
+  .tab {
+    min-height: 40px;
+    padding: 5px 4px;
+    font-size: clamp(14px, 4vw, 16px);
+  }
+
   .kana-column button {
-    font-size: 34px;
-    line-height: 1.05;
     border-width: 1.5px;
-    border-radius: 8px;
+    border-radius: clamp(6px, 2vw, 9px);
+    font-size: clamp(22px, calc(var(--tile-size) * .72), 34px);
     box-shadow: 0 2px 0 var(--shu-dark), 0 4px 7px rgba(79,54,25,.08), inset 0 1px 0 rgba(255,255,255,.5);
   }
-  .kana-column button:active { transform: translateY(1.5px) scale(.975); box-shadow: 0 .5px 0 var(--shu-dark), 0 1px 3px rgba(79,54,25,.08); }
-  .youon-chart { width: 100%; gap: 0; }
-  .youon-row { gap: 0; }
-  .youon-row button { width: clamp(64px, 29vw, 104px); height: 62px; font-size: 30px; }
-  #result { min-height: 50px; font-size: 44px; }
+
+  .kana-column button:active {
+    transform: translateY(1.5px) scale(.975);
+    box-shadow: 0 .5px 0 var(--shu-dark), 0 1px 3px rgba(79,54,25,.08);
+  }
+
+  .youon-chart {
+    width: min(90vw, 430px);
+    gap: 5px;
+  }
+
+  .youon-row button {
+    width: clamp(62px, 20vw, 84px);
+    height: clamp(52px, 16vw, 68px);
+    font-size: clamp(22px, 7vw, 30px);
+  }
+
+  #result {
+    min-height: 46px;
+    padding: 1px 14px 3px;
+    font-size: clamp(38px, 11vw, 48px);
+  }
 }
 
-@media (max-height: 650px) and (min-width: 601px) {
-  .container { justify-content: flex-start; padding-top: 4px; }
-  header h1 { font-size: 32px; }
-  header p { margin-bottom: 4px; }
-  .tabs { margin-bottom: 5px; }
-  .tab { padding: 4px 8px; min-height: 40px; }
-  button, .blank { height: clamp(38px, 7.4vh, 54px); }
-  #result { min-height: 38px; font-size: 36px; }
+@media (orientation: landscape) and (max-height: 600px) {
+  :root {
+    --board-width: min(66vh, 680px);
+    --tile-size: calc(var(--board-width) / 10);
+  }
+
+  .container {
+    width: min(96vw, 860px);
+    min-height: 100svh;
+    padding: 6px 10px 8px;
+    justify-content: flex-start;
+  }
+
+  header h1 { font-size: clamp(24px, 5vh, 32px); }
+  header p { margin-bottom: 3px; font-size: clamp(12px, 2.6vh, 15px); }
+
+  .tabs {
+    width: min(52vw, 420px);
+    margin-bottom: 5px;
+  }
+
+  .tab {
+    min-height: 34px;
+    padding: 3px 6px;
+    font-size: clamp(12px, 2.7vh, 15px);
+  }
+
+  .kana-column button {
+    font-size: clamp(18px, calc(var(--tile-size) * .64), 32px);
+    border-radius: clamp(5px, 1.5vh, 9px);
+  }
+
+  .youon-chart {
+    width: min(72vw, 620px);
+    gap: 4px;
+  }
+
+  .youon-row button {
+    width: clamp(56px, 9vw, 80px);
+    height: clamp(44px, 9vh, 62px);
+    font-size: clamp(18px, 5vh, 28px);
+  }
+
+  #result {
+    min-height: 34px;
+    padding: 0 12px 2px;
+    font-size: clamp(30px, 7vh, 40px);
+  }
+}
+
+@media (min-width: 1000px) {
+  :root {
+    --board-width: 720px;
+    --tile-size: 72px;
+  }
+
+  .container { width: 840px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kana-column button, .youon-row button { transition: none; }
+  .kana-column button,
+  .youon-row button { transition: none; }
 }
