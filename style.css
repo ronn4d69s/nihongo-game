@@ -23,12 +23,10 @@ body {
   color: var(--sumi);
   overflow-x: hidden;
   background-color: var(--washi);
-  background-image:
-    radial-gradient(circle at 18% 14%, rgba(255,255,255,.42) 0 1px, transparent 1.5px),
-    radial-gradient(circle at 73% 66%, rgba(127,103,64,.06) 0 1px, transparent 1.7px),
-    repeating-linear-gradient(7deg, rgba(104,87,55,.025) 0 1px, transparent 1px 9px),
-    linear-gradient(115deg, rgba(255,255,255,.28), rgba(222,205,168,.10));
-  background-size: 31px 31px, 43px 43px, 100% 100%, 100% 100%;
+  background-image: linear-gradient(rgba(250,245,232,.18), rgba(250,245,232,.18)), url('assets/backgrounds/washi.webp');
+  background-repeat: repeat;
+  background-size: 640px 480px;
+  background-position: center top;
 }
 
 .container {
@@ -170,24 +168,15 @@ button,
 }
 
 .kana-column button:hover,
-.youon-row button:hover {
-  background-color: var(--wood-light);
-}
+.youon-row button:hover { background-color: var(--wood-light); }
 
 .kana-column button:active,
 .youon-row button:active {
   transform: translateY(2px) scale(.975);
-  box-shadow:
-    0 1px 0 var(--shu-dark),
-    0 2px 4px rgba(79,54,25,.10),
-    inset 0 1px 2px rgba(93,63,28,.06);
+  box-shadow: 0 1px 0 var(--shu-dark), 0 2px 4px rgba(79,54,25,.10), inset 0 1px 2px rgba(93,63,28,.06);
 }
 
-button:focus-visible {
-  outline: 3px solid var(--aomi);
-  outline-offset: 2px;
-}
-
+button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
 .blank { visibility: hidden; }
 
 .youon-chart {
@@ -215,47 +204,25 @@ button:focus-visible {
 }
 
 @media (max-width: 600px) {
-  .container {
-    width: 100%;
-    padding: 10px 6px;
-    justify-content: flex-start;
-  }
-
+  .container { width: 100%; padding: 10px 6px; justify-content: flex-start; }
   header h1 { font-size: 36px; }
   header p { font-size: 17px; margin-bottom: 9px; }
-
   .tabs { width: min(100%, 455px); margin-bottom: 10px; }
   .tab { min-height: 43px; padding: 5px 4px; font-size: 16px; }
-
   .kana-chart { gap: 0; }
   .kana-column { gap: 0; }
-
-  button,
-  .blank {
-    width: calc((100vw - 12px) / 10);
-    height: 64px;
-  }
-
+  button, .blank { width: calc((100vw - 12px) / 10); height: 64px; }
   .kana-column button {
     font-size: 34px;
     line-height: 1.05;
     border-width: 1.5px;
     border-radius: 8px;
-    box-shadow:
-      0 2px 0 var(--shu-dark),
-      0 4px 7px rgba(79,54,25,.08),
-      inset 0 1px 0 rgba(255,255,255,.5);
+    box-shadow: 0 2px 0 var(--shu-dark), 0 4px 7px rgba(79,54,25,.08), inset 0 1px 0 rgba(255,255,255,.5);
   }
-
-  .kana-column button:active {
-    transform: translateY(1.5px) scale(.975);
-    box-shadow: 0 .5px 0 var(--shu-dark), 0 1px 3px rgba(79,54,25,.08);
-  }
-
+  .kana-column button:active { transform: translateY(1.5px) scale(.975); box-shadow: 0 .5px 0 var(--shu-dark), 0 1px 3px rgba(79,54,25,.08); }
   .youon-chart { width: 100%; gap: 0; }
   .youon-row { gap: 0; }
   .youon-row button { width: clamp(64px, 29vw, 104px); height: 62px; font-size: 30px; }
-
   #result { min-height: 50px; font-size: 44px; }
 }
 
@@ -265,12 +232,10 @@ button:focus-visible {
   header p { margin-bottom: 4px; }
   .tabs { margin-bottom: 5px; }
   .tab { padding: 4px 8px; min-height: 40px; }
-  button,
-  .blank { height: clamp(38px, 7.4vh, 54px); }
+  button, .blank { height: clamp(38px, 7.4vh, 54px); }
   #result { min-height: 38px; font-size: 36px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .kana-column button,
-  .youon-row button { transition: none; }
+  .kana-column button, .youon-row button { transition: none; }
 }
