@@ -1,0 +1,1 @@
+Background assets for nihongo-game.
