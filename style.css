@@ -1,350 +1,98 @@
 @import url('https://fonts.googleapis.com/css2?family=Klee+One:wght@400;600&family=Yuji+Syuku&display=swap');
 
-:root {
-  --washi: #f2ead9;
-  --washi-light: #faf5e8;
-  --sumi: #3e3a34;
-  --sumi-soft: #514b43;
-  --shu: #b85c45;
-  --shu-dark: #994936;
-  --yamabuki: #d8a84e;
-  --wood: #f6e9cd;
-  --wood-light: #fff7e5;
-  --aomi: #4f8f8b;
-  --game-max: 760px;
-  --board-width: min(88vw, var(--game-max));
-  --tile-size: calc(var(--board-width) / 10);
+:root { --washi:#f2ead9; --sumi:#3e3a34; --sumi-soft:#514b43; --shu:#b85c45; --shu-dark:#994936; --wood:#f6e9cd; --wood-light:#fff7e5; --aomi:#4f8f8b; --game-max:760px; --board-width:min(88vw,var(--game-max)); --tile-size:calc(var(--board-width)/10); }
+* { box-sizing:border-box; }
+html,body { min-height:100%; }
+body { margin:0; min-height:100vh; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho","BIZ UDPGothic",sans-serif; text-align:center; color:var(--sumi); overflow-x:hidden; background-color:var(--washi); background-image:linear-gradient(rgba(250,245,232,.18),rgba(250,245,232,.18)),url('assets/backgrounds/washi.webp'); background-repeat:repeat; background-size:640px 480px; background-position:center top; }
+.container { width:min(94vw,860px); min-height:100vh; margin:0 auto; padding:clamp(12px,2.5vh,28px) 10px; display:flex; flex-direction:column; justify-content:center; align-items:center; }
+.controls { width:100%; display:flex; flex-direction:column; align-items:center; }
+.script-selector { display:flex; align-items:flex-end; justify-content:center; gap:clamp(26px,6vw,64px); width:100%; margin-bottom:1px; }
+.script-option { position:relative; width:auto; height:auto; aspect-ratio:auto; padding:2px 4px 7px; border:0; background:transparent; color:#756d62; box-shadow:none; font-family:"Yuji Syuku","Klee One",serif; font-size:clamp(29px,4vw,45px); line-height:1.15; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+.script-option::after { content:""; position:absolute; left:18%; right:18%; bottom:1px; height:3px; border-radius:50%; background:var(--shu); opacity:0; transform:scaleX(.45) rotate(-1deg); transition:opacity 140ms ease,transform 140ms ease; }
+.script-option.active { color:#332f2a; }
+.script-option.active::after { opacity:.9; transform:scaleX(1) rotate(-1deg); }
+.script-option:active { transform:translateY(1px); }
+.instruction { margin:0 0 8px; font-size:clamp(13px,1.8vw,18px); color:#655e54; }
+.tabs { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); align-items:stretch; gap:0; width:min(72vw,520px); margin:0 auto 10px; border:1px solid rgba(114,86,53,.16); border-radius:13px; background:rgba(255,250,237,.58); box-shadow:0 2px 8px rgba(80,57,28,.08); overflow:hidden; }
+.tab { width:100%; min-width:0; height:auto; aspect-ratio:auto; min-height:42px; padding:6px 8px; border:0; border-right:1px solid rgba(114,86,53,.16); border-radius:0; background:transparent; color:#685f54; box-shadow:none; font-family:"Klee One",sans-serif; font-size:clamp(14px,1.8vw,19px); font-weight:600; line-height:1.15; white-space:nowrap; display:flex; align-items:center; justify-content:center; }
+.tab:last-child { border-right:0; }
+.tab.active { background:var(--shu); color:#fffaf0; }
+.tab:hover:not(:disabled) { background:rgba(184,92,69,.10); }
+.tab.active:hover { background:var(--shu); }
+.tab:disabled { opacity:.42; cursor:default; }
+.handedness { display:none; }
+.result-mirror { display:none; }
+.practice { display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
+.panel { display:none!important; }
+.panel.active { display:flex!important; }
+.kana-chart { flex-direction:row-reverse; justify-content:center; gap:0; width:fit-content; max-width:100%; filter:drop-shadow(0 5px 8px rgba(72,52,28,.08)); }
+#basic { width:var(--board-width); }
+#dakuten { width:calc(var(--board-width)/2); }
+.kana-column { display:grid; grid-template-rows:repeat(5,var(--tile-size)); gap:0; }
+button,.blank { width:var(--tile-size); height:var(--tile-size); aspect-ratio:1/1; }
+.kana-column button,.youon-row button { padding:0; border:2px solid var(--shu); border-radius:clamp(8px,1.2vw,14px); background-color:var(--wood); background-image:linear-gradient(100deg,rgba(255,255,255,.28),transparent 42%,rgba(156,111,54,.035)),repeating-linear-gradient(4deg,rgba(116,84,45,.025) 0 1px,transparent 1px 11px); color:var(--sumi-soft); font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho",sans-serif; font-weight:600; font-size:clamp(26px,calc(var(--tile-size)*.62),44px); line-height:1; cursor:pointer; box-shadow:0 3px 0 var(--shu-dark),0 6px 10px rgba(79,54,25,.10),inset 0 1px 0 rgba(255,255,255,.55); touch-action:manipulation; display:flex; align-items:center; justify-content:center; overflow:visible; transition:transform 140ms ease,box-shadow 140ms ease,background-color 140ms ease; -webkit-tap-highlight-color:transparent; }
+.kana-column button:hover,.youon-row button:hover { background-color:var(--wood-light); }
+.kana-column button:active,.youon-row button:active { transform:translateY(2px) scale(.975); box-shadow:0 1px 0 var(--shu-dark),0 2px 4px rgba(79,54,25,.10),inset 0 1px 2px rgba(93,63,28,.06); }
+button:focus-visible { outline:3px solid var(--aomi); outline-offset:2px; }
+.blank { visibility:hidden; }
+.youon-chart { flex-wrap:wrap; justify-content:center; align-content:center; gap:6px; width:min(82vw,650px); max-width:100%; }
+.youon-row { display:flex; gap:0; }
+.youon-row button { width:clamp(66px,10vw,86px); height:clamp(58px,8.5vw,72px); aspect-ratio:auto; font-size:clamp(24px,4vw,34px); }
+#result,.result-mirror { min-height:54px; padding:2px 16px 4px; border-radius:14px; font-family:"Klee One","UD Digi Kyokasho NK-R","Yu Kyokasho",sans-serif; font-size:clamp(40px,6vw,62px); line-height:1; font-weight:600; color:var(--shu-dark); background:rgba(255,250,237,.38); box-shadow:inset 0 0 0 1px rgba(155,115,65,.08); }
+.placeholder { width:min(80vw,520px); min-height:220px; align-items:center; justify-content:center; border:1px solid rgba(184,92,69,.22); border-radius:18px; background:rgba(255,250,237,.34); color:#71685d; font-size:clamp(24px,4vw,34px); line-height:1.6; }
+
+@media (max-width:600px) and (orientation:portrait) {
+ :root { --board-width:min(95vw,456px); --tile-size:calc(var(--board-width)/10); }
+ .container { width:100%; min-height:100svh; padding:14px 2.5vw 18px; justify-content:flex-start; }
+ .script-selector { gap:clamp(24px,8vw,42px); }
+ .script-option { font-size:clamp(30px,8.8vw,38px); }
+ .instruction { font-size:16px; margin-bottom:7px; }
+ .tabs { width:min(80vw,380px); margin-bottom:9px; }
+ .tab { min-height:40px; padding:5px 4px; font-size:clamp(14px,4vw,16px); }
+ .kana-column button { border-width:1.5px; border-radius:clamp(6px,2vw,9px); font-size:clamp(25px,calc(var(--tile-size)*.76),36px); box-shadow:0 2px 0 var(--shu-dark),0 4px 7px rgba(79,54,25,.08),inset 0 1px 0 rgba(255,255,255,.5); }
+ .kana-column button:active { transform:translateY(1.5px) scale(.975); box-shadow:0 .5px 0 var(--shu-dark),0 1px 3px rgba(79,54,25,.08); }
+ .youon-chart { width:min(95vw,456px); gap:5px; }
+ .youon-row button { width:clamp(68px,21vw,88px); height:clamp(56px,17vw,72px); font-size:clamp(24px,7.4vw,32px); }
+ #result { min-height:48px; padding:1px 14px 3px; font-size:clamp(40px,11vw,50px); }
+ .placeholder { width:90vw; min-height:45vw; }
 }
 
-* { box-sizing: border-box; }
-
-html, body { min-height: 100%; }
-
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", "BIZ UDPGothic", sans-serif;
-  text-align: center;
-  color: var(--sumi);
-  overflow-x: hidden;
-  background-color: var(--washi);
-  background-image: linear-gradient(rgba(250,245,232,.18), rgba(250,245,232,.18)), url('assets/backgrounds/washi.webp');
-  background-repeat: repeat;
-  background-size: 640px 480px;
-  background-position: center top;
+/* Touch-first landscape: phones/tablets only. Hover-capable desktop browsers keep the normal layout. */
+@media (orientation:landscape) and (max-width:1180px) and (max-height:820px) and (hover:none) and (pointer:coarse) {
+ :root { --board-width:min(69vw,680px); --tile-size:calc(var(--board-width)/10); }
+ body { overflow-y:hidden; }
+ .container { width:98vw; max-width:1120px; min-height:100svh; height:100svh; padding:8px 10px; display:grid; grid-template-columns:minmax(155px,24vw) minmax(0,1fr); grid-template-areas:"controls board"; gap:clamp(10px,2vw,24px); align-items:center; justify-content:center; }
+ body[data-hand="left"] .container { grid-template-columns:minmax(0,1fr) minmax(155px,24vw); grid-template-areas:"board controls"; }
+ .controls { grid-area:controls; align-self:center; width:100%; gap:7px; }
+ .practice { grid-area:board; width:100%; min-width:0; gap:5px; justify-content:center; }
+ .script-selector { flex-direction:column; align-items:stretch; gap:0; margin:0; }
+ .script-option { width:100%; padding:3px 4px 6px; font-size:clamp(25px,3.5vw,36px); text-align:center; }
+ .instruction { display:none; }
+ .tabs { width:100%; margin:2px 0 3px; }
+ .tab { min-height:38px; padding:4px 2px; font-size:clamp(14px,1.8vw,17px); }
+ .handedness { display:flex; align-items:center; justify-content:center; gap:7px; margin-top:2px; color:#6a6258; font-size:13px; }
+ .hand-options { display:flex; overflow:hidden; border:1px solid rgba(114,86,53,.2); border-radius:9px; }
+ .hand-option { width:38px; height:30px; aspect-ratio:auto; border:0; border-right:1px solid rgba(114,86,53,.16); border-radius:0; background:rgba(255,250,237,.55); box-shadow:none; color:#6a6258; font:600 14px "Klee One",sans-serif; }
+ .hand-option:last-child { border-right:0; }
+ .hand-option.active { background:var(--aomi); color:#fff; }
+ .result-mirror { display:block; min-height:42px; margin-top:1px; padding:1px 8px 3px; font-size:clamp(34px,4vw,46px); }
+ #result { display:none; }
+ #basic { width:var(--board-width); }
+ #dakuten { width:calc(var(--board-width)/2); }
+ .kana-column button { font-size:clamp(27px,calc(var(--tile-size)*.67),42px); }
+ .youon-chart { width:min(69vw,650px); gap:4px; }
+ .youon-row button { width:clamp(70px,9vw,88px); height:clamp(56px,7vw,72px); font-size:clamp(25px,3.4vw,34px); }
+ .placeholder { width:min(65vw,520px); min-height:45vh; }
 }
 
-.container {
-  width: min(94vw, 860px);
-  min-height: 100vh;
-  margin: 0 auto;
-  padding: clamp(12px, 2.5vh, 28px) 10px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+/* Non-touch landscape below desktop width retains the readable single-column layout. */
+@media (orientation:landscape) and (max-width:999px) and (not (hover:none)) {
+ :root { --board-width:min(78vw,680px); --tile-size:calc(var(--board-width)/10); }
+ .container { width:min(96vw,860px); min-height:100svh; padding:12px 10px 18px; justify-content:flex-start; }
 }
 
-header { width: 100%; }
-
-header h1 {
-  margin: 0 0 2px;
-  font-family: "Yuji Syuku", "Klee One", serif;
-  font-size: clamp(30px, 4vw, 46px);
-  font-weight: 400;
-  line-height: 1.16;
-  letter-spacing: .04em;
-  color: #332f2a;
-  text-shadow: 0 1px 0 rgba(255,255,255,.5);
+@media (min-width:1000px) {
+ :root { --board-width:720px; --tile-size:72px; }
+ .container { width:840px; }
 }
-
-header h1::after {
-  content: "";
-  display: inline-block;
-  width: .32em;
-  height: .32em;
-  margin-left: .2em;
-  border-radius: 2px;
-  background: var(--shu);
-  opacity: .85;
-  transform: rotate(-4deg);
-}
-
-header p {
-  margin: 0 0 8px;
-  font-size: clamp(13px, 1.8vw, 18px);
-  color: #655e54;
-}
-
-.tabs {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  align-items: stretch;
-  gap: 0;
-  width: min(72vw, 520px);
-  margin: 0 auto 10px;
-  border: 1px solid rgba(114,86,53,.16);
-  border-radius: 13px;
-  background: rgba(255,250,237,.58);
-  box-shadow: 0 2px 8px rgba(80,57,28,.08);
-  overflow: hidden;
-}
-
-.tab {
-  width: 100%;
-  min-width: 0;
-  min-height: 42px;
-  padding: 6px 8px;
-  border: 0;
-  border-right: 1px solid rgba(114,86,53,.16);
-  border-radius: 0;
-  background: transparent;
-  color: #685f54;
-  box-shadow: none;
-  font-family: "Klee One", sans-serif;
-  font-size: clamp(14px, 1.8vw, 19px);
-  font-weight: 600;
-  line-height: 1.15;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.tab:last-child { border-right: 0; }
-.tab.active { background: var(--shu); color: #fffaf0; }
-.tab:hover { background: rgba(184,92,69,.10); }
-.tab.active:hover { background: var(--shu); }
-
-.practice {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  width: 100%;
-}
-
-.panel { display: none !important; }
-.panel.active { display: flex !important; }
-
-.kana-chart {
-  flex-direction: row-reverse;
-  justify-content: center;
-  gap: 0;
-  width: fit-content;
-  max-width: 100%;
-  filter: drop-shadow(0 5px 8px rgba(72,52,28,.08));
-}
-
-#basic { width: var(--board-width); }
-#dakuten { width: calc(var(--board-width) / 2); }
-
-.kana-column {
-  display: grid;
-  grid-template-rows: repeat(5, var(--tile-size));
-  gap: 0;
-}
-
-button,
-.blank {
-  width: var(--tile-size);
-  height: var(--tile-size);
-  aspect-ratio: 1 / 1;
-}
-
-.kana-column button,
-.youon-row button {
-  padding: 0;
-  border: 2px solid var(--shu);
-  border-radius: clamp(8px, 1.2vw, 14px);
-  background-color: var(--wood);
-  background-image:
-    linear-gradient(100deg, rgba(255,255,255,.28), transparent 42%, rgba(156,111,54,.035)),
-    repeating-linear-gradient(4deg, rgba(116,84,45,.025) 0 1px, transparent 1px 11px);
-  color: var(--sumi-soft);
-  font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", sans-serif;
-  font-weight: 600;
-  font-size: clamp(26px, calc(var(--tile-size) * .62), 44px);
-  line-height: 1;
-  cursor: pointer;
-  box-shadow:
-    0 3px 0 var(--shu-dark),
-    0 6px 10px rgba(79,54,25,.10),
-    inset 0 1px 0 rgba(255,255,255,.55);
-  touch-action: manipulation;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: visible;
-  transition: transform 140ms ease, box-shadow 140ms ease, background-color 140ms ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.kana-column button:hover,
-.youon-row button:hover { background-color: var(--wood-light); }
-
-.kana-column button:active,
-.youon-row button:active {
-  transform: translateY(2px) scale(.975);
-  box-shadow: 0 1px 0 var(--shu-dark), 0 2px 4px rgba(79,54,25,.10), inset 0 1px 2px rgba(93,63,28,.06);
-}
-
-button:focus-visible { outline: 3px solid var(--aomi); outline-offset: 2px; }
-.blank { visibility: hidden; }
-
-.youon-chart {
-  flex-wrap: wrap;
-  justify-content: center;
-  align-content: center;
-  gap: 6px;
-  width: min(82vw, 650px);
-  max-width: 100%;
-}
-
-.youon-row {
-  display: flex;
-  gap: 0;
-}
-
-.youon-row button {
-  width: clamp(66px, 10vw, 86px);
-  height: clamp(58px, 8.5vw, 72px);
-  aspect-ratio: auto;
-  font-size: clamp(24px, 4vw, 34px);
-}
-
-#result {
-  min-height: 54px;
-  padding: 2px 16px 4px;
-  border-radius: 14px;
-  font-family: "Klee One", "UD Digi Kyokasho NK-R", "Yu Kyokasho", sans-serif;
-  font-size: clamp(40px, 6vw, 62px);
-  line-height: 1;
-  font-weight: 600;
-  color: var(--shu-dark);
-  background: rgba(255,250,237,.38);
-  box-shadow: inset 0 0 0 1px rgba(155,115,65,.08);
-}
-
-/* Narrow portrait screens: use nearly all available width while preserving square tiles. */
-@media (max-width: 600px) and (orientation: portrait) {
-  :root {
-    --board-width: min(95vw, 456px);
-    --tile-size: calc(var(--board-width) / 10);
-  }
-
-  .container {
-    width: 100%;
-    min-height: 100svh;
-    padding: 14px 2.5vw 18px;
-    justify-content: flex-start;
-  }
-
-  header h1 { font-size: clamp(32px, 9.2vw, 39px); }
-  header p { font-size: 16px; margin-bottom: 7px; }
-
-  .tabs {
-    width: min(80vw, 380px);
-    margin-bottom: 9px;
-  }
-
-  .tab {
-    min-height: 40px;
-    padding: 5px 4px;
-    font-size: clamp(14px, 4vw, 16px);
-  }
-
-  .kana-column button {
-    border-width: 1.5px;
-    border-radius: clamp(6px, 2vw, 9px);
-    font-size: clamp(25px, calc(var(--tile-size) * .76), 36px);
-    box-shadow: 0 2px 0 var(--shu-dark), 0 4px 7px rgba(79,54,25,.08), inset 0 1px 0 rgba(255,255,255,.5);
-  }
-
-  .kana-column button:active {
-    transform: translateY(1.5px) scale(.975);
-    box-shadow: 0 .5px 0 var(--shu-dark), 0 1px 3px rgba(79,54,25,.08);
-  }
-
-  .youon-chart {
-    width: min(95vw, 456px);
-    gap: 5px;
-  }
-
-  .youon-row button {
-    width: clamp(68px, 21vw, 88px);
-    height: clamp(56px, 17vw, 72px);
-    font-size: clamp(24px, 7.4vw, 32px);
-  }
-
-  #result {
-    min-height: 48px;
-    padding: 1px 14px 3px;
-    font-size: clamp(40px, 11vw, 50px);
-  }
-}
-
-/* Landscape screens: size from available width, not viewport height. Vertical scrolling is allowed. */
-@media (orientation: landscape) and (max-width: 999px) {
-  :root {
-    --board-width: min(78vw, 680px);
-    --tile-size: calc(var(--board-width) / 10);
-  }
-
-  .container {
-    width: min(96vw, 860px);
-    min-height: 100svh;
-    padding: 12px 10px 18px;
-    justify-content: flex-start;
-  }
-
-  header h1 { font-size: clamp(28px, 4.6vw, 38px); }
-  header p { margin-bottom: 6px; font-size: clamp(14px, 2.2vw, 17px); }
-
-  .tabs {
-    width: min(58vw, 460px);
-    margin-bottom: 8px;
-  }
-
-  .tab {
-    min-height: 40px;
-    padding: 5px 7px;
-    font-size: clamp(14px, 2vw, 17px);
-  }
-
-  .kana-column button {
-    font-size: clamp(26px, calc(var(--tile-size) * .66), 40px);
-    border-radius: clamp(7px, 1.2vw, 11px);
-  }
-
-  .youon-chart {
-    width: min(78vw, 650px);
-    gap: 5px;
-  }
-
-  .youon-row button {
-    width: clamp(72px, 10.5vw, 90px);
-    height: clamp(58px, 8vw, 74px);
-    font-size: clamp(25px, 4vw, 34px);
-  }
-
-  #result {
-    min-height: 48px;
-    padding: 1px 14px 3px;
-    font-size: clamp(40px, 5vw, 52px);
-  }
-}
-
-@media (min-width: 1000px) {
-  :root {
-    --board-width: 720px;
-    --tile-size: 72px;
-  }
-
-  .container { width: 840px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .kana-column button,
-  .youon-row button { transition: none; }
-}
+@media (prefers-reduced-motion:reduce) { .kana-column button,.youon-row button,.script-option { transition:none; } }
