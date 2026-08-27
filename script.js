@@ -7,11 +7,61 @@ const scriptOptions = document.querySelectorAll(".script-option");
 const handOptions = document.querySelectorAll(".hand-option");
 const katakanaPlaceholder = document.querySelector("#katakana-placeholder");
 
+const synth = window.speechSynthesis;
+let availableVoices = [];
+let japaneseVoice = null;
+let currentUtterance = null;
+
 const state = {
   script: "hiragana",
   group: "basic",
   hand: localStorage.getItem("nihongo-game-hand") === "left" ? "left" : "right"
 };
+
+function loadVoices() {
+  if (!synth) return;
+  availableVoices = synth.getVoices();
+  japaneseVoice =
+    availableVoices.find((voice) => voice.lang.toLowerCase() === "ja-jp") ||
+    availableVoices.find((voice) => voice.lang.toLowerCase().startsWith("ja")) ||
+    null;
+}
+
+if (synth) {
+  loadVoices();
+  if ("onvoiceschanged" in synth) {
+    synth.addEventListener("voiceschanged", loadVoices);
+  }
+}
+
+function speakJapanese(text) {
+  if (!synth || typeof SpeechSynthesisUtterance === "undefined") return;
+
+  // Some WebKit versions can remain paused after interruptions.
+  if (synth.paused) synth.resume();
+
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "ja-JP";
+  if (japaneseVoice) utterance.voice = japaneseVoice;
+
+  // Keep a live reference until speech completes. This also avoids WebKit
+  // dropping a short utterance prematurely in some iOS versions.
+  currentUtterance = utterance;
+  utterance.onend = () => {
+    if (currentUtterance === utterance) currentUtterance = null;
+  };
+  utterance.onerror = () => {
+    if (currentUtterance === utterance) currentUtterance = null;
+  };
+
+  if (synth.speaking || synth.pending) {
+    synth.cancel();
+    // Queue in the same user-activation turn without an arbitrary timeout.
+    queueMicrotask(() => synth.speak(utterance));
+  } else {
+    synth.speak(utterance);
+  }
+}
 
 function setResult(value) {
   result.textContent = value;
@@ -64,10 +114,7 @@ function renderHand() {
 kanaButtons.forEach((button) => {
   button.addEventListener("click", () => {
     setResult(button.dataset.romaji);
-    speechSynthesis.cancel();
-    const speech = new SpeechSynthesisUtterance(button.textContent);
-    speech.lang = "ja-JP";
-    speechSynthesis.speak(speech);
+    speakJapanese(button.textContent);
   });
 });
 
