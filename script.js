@@ -1,7 +1,6 @@
 const result = document.querySelector("#result");
 const resultMirror = document.querySelector("#result-mobile");
-const basicKanaButtons = document.querySelectorAll("#basic button");
-const ttsKanaButtons = document.querySelectorAll("#dakuten button, #youon button");
+const kanaButtons = document.querySelectorAll("#basic button, #dakuten button, #youon button");
 const tabs = document.querySelectorAll(".tab");
 const kanaPanels = document.querySelectorAll("#basic, #dakuten, #youon");
 const scriptOptions = document.querySelectorAll(".script-option");
@@ -9,44 +8,41 @@ const handOptions = document.querySelectorAll(".hand-option");
 const katakanaPlaceholder = document.querySelector("#katakana-placeholder");
 
 const HIRAGANA_AUDIO_BASE = "assets/audio/hiragana/";
-const basicAudioFiles = {
-  A:"a.mp3", I:"i.mp3", U:"u.mp3", E:"e.mp3", O:"o.mp3",
-  KA:"ka.mp3", KI:"ki.mp3", KU:"ku.mp3", KE:"ke.mp3", KO:"ko.mp3",
-  SA:"sa.mp3", SHI:"shi.mp3", SU:"su.mp3", SE:"se.mp3", SO:"so.mp3",
-  TA:"ta.mp3", CHI:"chi.mp3", TSU:"tsu.mp3", TE:"te.mp3", TO:"to.mp3",
-  NA:"na.mp3", NI:"ni.mp3", NU:"nu.mp3", NE:"ne.mp3", NO:"no.mp3",
-  HA:"ha.mp3", HI:"hi.mp3", FU:"fu.mp3", HE:"he.mp3", HO:"ho.mp3",
-  MA:"ma.mp3", MI:"mi.mp3", MU:"mu.mp3", ME:"me.mp3", MO:"mo.mp3",
-  YA:"ya.mp3", YU:"yu.mp3", YO:"yo.mp3",
-  RA:"ra.mp3", RI:"ri.mp3", RU:"ru.mp3", RE:"re.mp3", RO:"ro.mp3",
-  WA:"wa.mp3", WO:"wo.mp3", N:"n.mp3"
+const hiraganaAudioFiles = {
+  "あ":"a.mp3","い":"i.mp3","う":"u.mp3","え":"e.mp3","お":"o.mp3",
+  "か":"ka.mp3","き":"ki.mp3","く":"ku.mp3","け":"ke.mp3","こ":"ko.mp3",
+  "さ":"sa.mp3","し":"shi.mp3","す":"su.mp3","せ":"se.mp3","そ":"so.mp3",
+  "た":"ta.mp3","ち":"chi.mp3","つ":"tsu.mp3","て":"te.mp3","と":"to.mp3",
+  "な":"na.mp3","に":"ni.mp3","ぬ":"nu.mp3","ね":"ne.mp3","の":"no.mp3",
+  "は":"ha.mp3","ひ":"hi.mp3","ふ":"fu.mp3","へ":"he.mp3","ほ":"ho.mp3",
+  "ま":"ma.mp3","み":"mi.mp3","む":"mu.mp3","め":"me.mp3","も":"mo.mp3",
+  "や":"ya.mp3","ゆ":"yu.mp3","よ":"yo.mp3",
+  "ら":"ra.mp3","り":"ri.mp3","る":"ru.mp3","れ":"re.mp3","ろ":"ro.mp3",
+  "わ":"wa.mp3","を":"wo.mp3","ん":"n.mp3",
+  "が":"ga.mp3","ぎ":"gi.mp3","ぐ":"gu.mp3","げ":"ge.mp3","ご":"go.mp3",
+  "ざ":"za.mp3","じ":"ji.mp3","ず":"zu.mp3","ぜ":"ze.mp3","ぞ":"zo.mp3",
+  "だ":"da.mp3","ぢ":"di.mp3","づ":"du.mp3","で":"de.mp3","ど":"do.mp3",
+  "ば":"ba.mp3","び":"bi.mp3","ぶ":"bu.mp3","べ":"be.mp3","ぼ":"bo.mp3",
+  "ぱ":"pa.mp3","ぴ":"pi.mp3","ぷ":"pu.mp3","ぺ":"pe.mp3","ぽ":"po.mp3",
+  "きゃ":"kya.mp3","きゅ":"kyu.mp3","きょ":"kyo.mp3",
+  "しゃ":"sha.mp3","しゅ":"shu.mp3","しょ":"sho.mp3",
+  "ちゃ":"cha.mp3","ちゅ":"chu.mp3","ちょ":"cho.mp3",
+  "にゃ":"nya.mp3","にゅ":"nyu.mp3","にょ":"nyo.mp3",
+  "ひゃ":"hya.mp3","ひゅ":"hyu.mp3","ひょ":"hyo.mp3",
+  "みゃ":"mya.mp3","みゅ":"myu.mp3","みょ":"myo.mp3",
+  "りゃ":"rya.mp3","りゅ":"ryu.mp3","りょ":"ryo.mp3",
+  "ぎゃ":"gya.mp3","ぎゅ":"gyu.mp3","ぎょ":"gyo.mp3",
+  "じゃ":"ja.mp3","じゅ":"ju.mp3","じょ":"jo.mp3",
+  "びゃ":"bya.mp3","びゅ":"byu.mp3","びょ":"byo.mp3",
+  "ぴゃ":"pya.mp3","ぴゅ":"pyu.mp3","ぴょ":"pyo.mp3"
 };
 let currentAudio = null;
-
-const synth = window.speechSynthesis;
-let availableVoices = [];
-let japaneseVoice = null;
-let currentUtterance = null;
 
 const state = {
   script: "hiragana",
   group: "basic",
   hand: localStorage.getItem("nihongo-game-hand") === "left" ? "left" : "right"
 };
-
-function loadVoices() {
-  if (!synth) return;
-  availableVoices = synth.getVoices();
-  japaneseVoice =
-    availableVoices.find((voice) => voice.lang.toLowerCase() === "ja-jp") ||
-    availableVoices.find((voice) => voice.lang.toLowerCase().startsWith("ja")) ||
-    null;
-}
-
-if (synth) {
-  loadVoices();
-  if ("onvoiceschanged" in synth) synth.addEventListener("voiceschanged", loadVoices);
-}
 
 function stopFixedAudio() {
   if (!currentAudio) return;
@@ -55,13 +51,10 @@ function stopFixedAudio() {
   currentAudio = null;
 }
 
-function playBasicHiragana(romaji) {
-  const file = basicAudioFiles[romaji];
+function playHiragana(text) {
+  const file = hiraganaAudioFiles[text];
   if (!file) return;
-
   stopFixedAudio();
-  if (synth && (synth.speaking || synth.pending)) synth.cancel();
-
   const audio = new Audio(`${HIRAGANA_AUDIO_BASE}${file}`);
   audio.preload = "auto";
   currentAudio = audio;
@@ -72,26 +65,6 @@ function playBasicHiragana(romaji) {
     if (currentAudio === audio) currentAudio = null;
     console.warn("Hiragana audio could not be played:", error);
   });
-}
-
-function speakJapanese(text) {
-  stopFixedAudio();
-  if (!synth || typeof SpeechSynthesisUtterance === "undefined") return;
-  if (synth.paused) synth.resume();
-
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "ja-JP";
-  if (japaneseVoice) utterance.voice = japaneseVoice;
-  currentUtterance = utterance;
-  utterance.onend = () => { if (currentUtterance === utterance) currentUtterance = null; };
-  utterance.onerror = () => { if (currentUtterance === utterance) currentUtterance = null; };
-
-  if (synth.speaking || synth.pending) {
-    synth.cancel();
-    queueMicrotask(() => synth.speak(utterance));
-  } else {
-    synth.speak(utterance);
-  }
 }
 
 function setResult(value) {
@@ -134,23 +107,17 @@ function renderHand() {
   });
 }
 
-basicKanaButtons.forEach((button) => {
+kanaButtons.forEach((button) => {
   button.addEventListener("click", () => {
     setResult(button.dataset.romaji);
-    playBasicHiragana(button.dataset.romaji);
-  });
-});
-
-ttsKanaButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    setResult(button.dataset.romaji);
-    speakJapanese(button.textContent);
+    playHiragana(button.textContent);
   });
 });
 
 tabs.forEach((tab) => {
   tab.addEventListener("click", () => {
     if (state.script !== "hiragana") return;
+    stopFixedAudio();
     state.group = tab.dataset.target;
     renderGroup();
   });
